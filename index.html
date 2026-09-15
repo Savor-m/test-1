@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#d71920"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<title>Core Sessions</title>
+<style>
+:root{--red:#d71920;--navy:#0f2742;--blue:#1d5f91;--bg:#f4f7fb;--card:#fff;--muted:#64748b;--green:#12815a;--amber:#cc7a00;--line:#dfe6ef}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#172033}
+header{background:linear-gradient(120deg,var(--red),#ef3b43 58%,var(--navy) 58%);color:white;padding:18px 16px 22px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0002}
+header h1{margin:0;font-size:25px} header p{margin:5px 0 0;font-size:13px;opacity:.92}
+main{max-width:780px;margin:0 auto;padding:14px 14px 110px}
+.card{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 4px 16px #20304010;border:1px solid #e7edf5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button,.btn{border:0;border-radius:14px;padding:13px 14px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:inline-block}
+.primary{background:var(--red);color:#fff}.secondary{background:var(--navy);color:#fff}.ghost{background:#edf2f8;color:var(--navy)}.green{background:var(--green);color:#fff}.amber{background:var(--amber);color:#fff}
+input,textarea,select{width:100%;padding:11px;border:1px solid #cfd8e6;border-radius:12px;background:white;font-size:16px} textarea{min-height:82px;resize:vertical}
+label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin:9px 0 5px;text-transform:uppercase;letter-spacing:.03em}
+.small{font-size:12px;color:var(--muted)} .muted{color:var(--muted)}
+.exercise-title{font-size:22px;font-weight:900;color:var(--navy);margin:3px 0}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e8eef6;color:var(--navy);font-size:12px;font-weight:800;margin:2px 4px 2px 0}
+.progressbar{height:8px;background:#e1e8f1;border-radius:999px;overflow:hidden;margin:10px 0}.progressbar>div{height:100%;background:var(--red)}
+.illus{height:180px;border-radius:16px;background:linear-gradient(160deg,#f7fafc,#e8eef6);display:flex;align-items:center;justify-content:center;margin:10px 0;overflow:hidden;border:1px solid #e0e7f0}
+.illus svg{width:95%;height:95%}
+.setrow{display:grid;grid-template-columns:44px 1fr 1fr 1fr;gap:7px;align-items:center;margin:8px 0}.setbadge{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dde5ef;display:grid;grid-template-columns:repeat(4,1fr);padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));z-index:10}
+nav button{background:none;color:#53657a;padding:8px 4px;font-size:12px}nav button.active{color:var(--red)}nav .ico{font-size:22px;display:block;margin-bottom:2px}
+.stat{background:#f8fafc;border:1px solid #e1e8f0;border-radius:14px;padding:12px}.stat b{font-size:22px;color:var(--navy)}
+.history-item{padding:12px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border-bottom:0}
+.chart{height:150px;display:flex;align-items:flex-end;gap:5px;padding:8px 0 0}.bar{flex:1;min-width:9px;background:linear-gradient(var(--red),#ff7075);border-radius:7px 7px 2px 2px;position:relative}.bar span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:9px;color:#475569;white-space:nowrap}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}.hidden{display:none!important}
+.notice{border-left:5px solid var(--amber);background:#fff7e8;padding:12px;border-radius:12px;font-size:13px}
+@media(max-width:480px){.grid2{grid-template-columns:1fr}.exercise-title{font-size:20px}.illus{height:155px}.setrow{grid-template-columns:40px 1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<header><h1>CORE SESSIONS</h1><p>Jour 1 & Jour 2 · suivi exercice par exercice</p></header>
+<main id="app"></main>
+<nav>
+<button data-tab="home" class="active"><span class="ico">🏠</span>Accueil</button>
+<button data-tab="history"><span class="ico">📅</span>Historique</button>
+<button data-tab="progress"><span class="ico">📈</span>Progression</button>
+<button data-tab="settings"><span class="ico">⚙️</span>Réglages</button>
+</nav>
+<script>
+const routines={
+"Jour 1":{warmup:[
+{name:"CARS cou, colonne, genou debout/assis, hanches",rx:"3×",yt:"https://www.youtube.com/results?search_query=CARS+mobility+neck+spine+knee+hip"},
+{name:"90-90-90 isométrique",rx:"30 s",yt:"https://www.youtube.com/results?search_query=90+90+hip+isometric+exercise"},
+{name:"90-90-90 clams",rx:"10 répétitions",yt:"https://www.youtube.com/results?search_query=90+90+hip+clam+exercise"},
+{name:"Pont avec bloc adducteur (ou bande)",rx:"10 répétitions",yt:"https://www.youtube.com/results?search_query=glute+bridge+adductor+squeeze"}],
+core:[
+{name:"Squat à la poulie basse",rx:"3 × 12–15",yt:"https://www.youtube.com/results?search_query=low+cable+squat+exercise",cue:"Poitrine haute, genoux dans l’axe, mouvement contrôlé."},
+{name:"Poulie bilatérale : rétraction scapulaire puis rowing en position squat",rx:"3 × 12–15",yt:"https://www.youtube.com/results?search_query=cable+row+squat+scapular+retraction",cue:"Initier par les omoplates, puis tirer sans hausser les épaules."},
+{name:"Quadrupédie “Y inversé” isométrique",rx:"3 × 1–2 × 30 s",yt:"https://www.youtube.com/results?search_query=quadruped+reverse+Y+isometric",cue:"Tronc stable; ne pas cambrer pour gagner de l’amplitude."},
+{name:"Pont sur banc avec levée alternée lente des jambes",rx:"3 × 12–15",yt:"https://www.youtube.com/results?search_query=bench+bridge+alternating+leg+lift",cue:"Garder le bassin horizontal pendant l’alternance."},
+{name:"Tirage vertical unilatéral, prise neutre",rx:"3 × 12–15",yt:"https://www.youtube.com/results?search_query=single+arm+lat+pulldown+neutral+grip",cue:"Épaule basse, coude vers la hanche; éviter de tourner le tronc."},
+{name:"Quadrupédie “T” isométrique",rx:"3 × 1–2 × 30 s",yt:"https://www.youtube.com/results?search_query=quadruped+T+isometric+exercise",cue:"Rester carré au sol et contrôler l’omoplate."},
+{name:"Cordes debout lentes",rx:"3 × 2 × 30–45 s",yt:"https://www.youtube.com/results?search_query=slow+battle+rope+waves+standing",cue:"Genoux souples, tronc gainé, rythme régulier."}
+]},
+"Jour 2":{warmup:[
+{name:"CARS cou, colonne, genou debout/assis, hanches",rx:"3×",yt:"https://www.youtube.com/results?search_query=CARS+mobility+neck+spine+knee+hip"},
+{name:"90-90-90 isométrique",rx:"30 s",yt:"https://www.youtube.com/results?search_query=90+90+hip+isometric+exercise"},
+{name:"90-90-90 clams",rx:"10 répétitions",yt:"https://www.youtube.com/results?search_query=90+90+hip+clam+exercise"},
+{name:"Pont avec bloc adducteur (ou bande)",rx:"10 répétitions",yt:"https://www.youtube.com/results?search_query=glute+bridge+adductor+squeeze"}],
+core:[
+{name:"Fente arrière avec bande adducteur",rx:"3 × 10–12",yt:"https://www.youtube.com/results?search_query=reverse+lunge+band+adductor",cue:"Pas arrière contrôlé; garder le genou avant stable."},
+{name:"Push-up sur barre",rx:"3 × 15–20",yt:"https://www.youtube.com/results?search_query=incline+push+up+on+bar",cue:"Corps en bloc; ajuster la hauteur de la barre au niveau approprié."},
+{name:"Pallof press à la poulie",rx:"3 × 10–12",yt:"https://www.youtube.com/results?search_query=pallof+press+cable",cue:"Résister à la rotation; bassin et cage thoracique face devant."},
+{name:"Pont bilatéral + ouverture de bande avec les bras",rx:"3 × 15–20",yt:"https://www.youtube.com/results?search_query=glute+bridge+band+pull+apart",cue:"Maintenir les fessiers engagés pendant le mouvement des bras."},
+{name:"Deadbug avec développé alterné aux haltères",rx:"3 × 10–12",yt:"https://www.youtube.com/results?search_query=dead+bug+alternating+dumbbell+press",cue:"Lombaires stables; bouger lentement sans perdre le contrôle du tronc."},
+{name:"Deadbug contrôlé",rx:"3 × 10–12",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form",cue:"Expirer pendant l’allongement; maintenir le bas du dos stable."},
+{name:"Cordes demi-agenouillé “serpent” + 1 × debout “flys”",rx:"3 × 30–45 s chacun",yt:"https://www.youtube.com/results?search_query=half+kneeling+battle+rope+snake+standing+fly",cue:"Contrôler le tronc; qualité du mouvement avant la vitesse."}
+]}}
+
+function svgFor(name){
+ const n=name.toLowerCase(); let pose='stand';
+ if(n.includes('pont')) pose='bridge'; else if(n.includes('deadbug')) pose='deadbug'; else if(n.includes('quadrup')) pose='quad'; else if(n.includes('fente')) pose='lunge'; else if(n.includes('push-up')) pose='push'; else if(n.includes('squat')) pose='squat'; else if(n.includes('tirage')||n.includes('poulie')) pose='pull'; else if(n.includes('cordes')) pose='rope'; else if(n.includes('pallof')) pose='pallof'; else if(n.includes('90-90')) pose='sit';
+ const common=`stroke="#0f2742" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"`;
+ let body='';
+ if(pose==='bridge') body=`<circle cx="130" cy="105" r="15" fill="#d71920"/><path d="M145 112 L210 145 L275 132 M210 145 L175 180 M275 132 L310 170" ${common}/><path d="M95 180 H330" stroke="#b8c3d1" stroke-width="8"/>`;
+ if(pose==='deadbug') body=`<circle cx="155" cy="155" r="15" fill="#d71920"/><path d="M170 155 L230 150 M205 152 L180 95 M215 152 L255 95 M210 152 L185 205 M220 152 L270 200" ${common}/>`;
+ if(pose==='quad') body=`<circle cx="175" cy="105" r="15" fill="#d71920"/><path d="M188 115 L220 150 L275 150 M220 150 L190 200 M250 150 L305 115 M250 150 L285 205" ${common}/>`;
+ if(pose==='lunge') body=`<circle cx="205" cy="70" r="15" fill="#d71920"/><path d="M205 85 L210 135 M210 100 L170 125 M210 100 L250 125 M210 135 L170 180 L125 180 M210 135 L255 185" ${common}/>`;
+ if(pose==='push') body=`<circle cx="135" cy="105" r="15" fill="#d71920"/><path d="M150 112 L220 135 L300 145 M180 122 L160 160 M185 125 L205 165 M300 145 L330 180" ${common}/><path d="M145 165 H230" stroke="#d71920" stroke-width="8"/>`;
+ if(pose==='squat') body=`<circle cx="205" cy="70" r="15" fill="#d71920"/><path d="M205 85 L205 130 M205 100 L160 125 M205 100 L250 125 M205 130 L165 165 L125 165 M205 130 L250 165 L295 165" ${common}/>`;
+ if(pose==='pull') body=`<circle cx="205" cy="80" r="15" fill="#d71920"/><path d="M205 95 L205 150 M205 110 L160 125 M205 110 L250 125 M205 150 L180 200 M205 150 L235 200" ${common}/><path d="M160 125 L95 100 M250 125 L315 100" ${common}/>`;
+ if(pose==='rope') body=`<circle cx="180" cy="75" r="15" fill="#d71920"/><path d="M180 90 L185 145 M185 110 L140 130 M185 110 L225 130 M185 145 L155 205 M185 145 L220 205" ${common}/><path d="M140 130 Q90 105 55 140 Q90 175 125 145 M225 130 Q280 100 335 140" stroke="#d71920" stroke-width="7" fill="none"/>`;
+ if(pose==='pallof') body=`<circle cx="205" cy="70" r="15" fill="#d71920"/><path d="M205 85 L205 150 M205 105 L270 105 M205 150 L180 205 M205 150 L235 205" ${common}/><circle cx="278" cy="105" r="8" fill="#d71920"/><path d="M286 105 H335" stroke="#d71920" stroke-width="6"/>`;
+ if(pose==='sit') body=`<circle cx="185" cy="95" r="15" fill="#d71920"/><path d="M185 110 L205 150 M205 150 L160 180 M205 150 L260 175 M205 120 L165 145" ${common}/>`;
+ if(!body) body=`<circle cx="205" cy="70" r="15" fill="#d71920"/><path d="M205 85 L205 150 M205 105 L160 130 M205 105 L250 130 M205 150 L180 205 M205 150 L235 205" ${common}/>`;
+ return `<svg viewBox="0 0 400 240" aria-label="Illustration"><rect x="0" y="0" width="400" height="240" rx="20" fill="#f8fafc"/><circle cx="330" cy="45" r="30" fill="#e9eef5"/><path d="M40 210 H360" stroke="#d8e0ea" stroke-width="5"/>${body}</svg>`;
+}
+let state={tab:'home',session:null,step:0};
+const load=()=>JSON.parse(localStorage.getItem('coreSessionsData')||'[]');
+const save=d=>localStorage.setItem('coreSessionsData',JSON.stringify(d));
+function start(day){state.session={day,date:new Date().toISOString(),painBefore:'',painAfter:'',notes:'',entries:[]};state.step=0;renderSession();}
+function sessionExercises(){let r=routines[state.session.day];return [...r.warmup.map(x=>({...x,section:'Échauffement'})),...r.core.map(x=>({...x,section:'Session core'}))]}
+function renderHome(){document.getElementById('app').innerHTML=`<div class="card"><h2 style="margin:0;color:var(--navy)">Choisir une séance</h2><p class="muted">Suivi guidé, un exercice à la fois.</p><div class="grid2"><button class="primary" onclick="start('Jour 1')">CORE SESSION<br>JOUR 1</button><button class="secondary" onclick="start('Jour 2')">CORE SESSION<br>JOUR 2</button></div></div><div class="card"><h3 style="margin-top:0">Dernières séances</h3>${recentHtml()}</div><div class="notice">Les liens YouTube ouvrent une recherche ciblée. Pour les variantes très spécifiques, compare toujours le mouvement à ta fiche/infographie et à tes consignes professionnelles.</div>`}
+function recentHtml(){let d=load().slice(-4).reverse(); if(!d.length)return '<p class="muted">Aucune séance enregistrée pour le moment.</p>';return d.map(s=>`<div class="history-item"><b>${new Date(s.date).toLocaleDateString('fr-CA')}</b> · ${s.day}<br><span class="small">${s.entries.length} exercices · douleur ${s.painBefore||'–'} → ${s.painAfter||'–'}</span></div>`).join('')}
+function renderSession(){let exs=sessionExercises(),ex=exs[state.step],pct=Math.round((state.step+1)/exs.length*100);let existing=state.session.entries[state.step]||{sets:[{w:'',r:'',t:''},{w:'',r:'',t:''},{w:'',r:'',t:''}],note:''};document.getElementById('app').innerHTML=`<div class="card"><div class="small">${state.session.day} · ${ex.section} · exercice ${state.step+1}/${exs.length}</div><div class="progressbar"><div style="width:${pct}%"></div></div><div class="exercise-title">${ex.name}</div><span class="pill">${ex.rx}</span><div class="illus">${svgFor(ex.name)}</div>${ex.cue?`<p><b>Repère :</b> ${ex.cue}</p>`:''}<a class="btn secondary" href="${ex.yt}" target="_blank" rel="noopener">▶️ Voir sur YouTube</a><hr><label>Séries — inscrire poids / reps / secondes</label>${existing.sets.map((s,i)=>`<div class="setrow"><div class="setbadge">${i+1}</div><input inputmode="decimal" placeholder="Poids" value="${s.w}" oninput="setField(${i},'w',this.value)"><input inputmode="numeric" placeholder="Reps" value="${s.r}" oninput="setField(${i},'r',this.value)"><input inputmode="numeric" placeholder="Sec." value="${s.t}" oninput="setField(${i},'t',this.value)"></div>`).join('')}<label>Notes pour cet exercice</label><textarea placeholder="Douleur, amplitude, ajustement, sensation…" oninput="setNote(this.value)">${existing.note||''}</textarea><div class="grid2" style="margin-top:12px"><button class="ghost" onclick="prevEx()" ${state.step===0?'disabled':''}>← Précédent</button>${state.step===exs.length-1?`<button class="green" onclick="finishSession()">Terminer ✓</button>`:`<button class="primary" onclick="nextEx()">Suivant →</button>`}</div></div>`}
+function ensureEntry(){if(!state.session.entries[state.step]) state.session.entries[state.step]={sets:[{w:'',r:'',t:''},{w:'',r:'',t:''},{w:'',r:'',t:''}],note:''};return state.session.entries[state.step]}
+function setField(i,k,v){ensureEntry().sets[i][k]=v} function setNote(v){ensureEntry().note=v} function nextEx(){ensureEntry();state.step++;renderSession()} function prevEx(){ensureEntry();state.step--;renderSession()}
+function finishSession(){ensureEntry();let pb=prompt('Douleur articulaire AVANT la séance (0–10) :',state.session.painBefore||'');let pa=prompt('Douleur articulaire APRÈS la séance (0–10) :',state.session.painAfter||'');state.session.painBefore=pb??'';state.session.painAfter=pa??'';let d=load();d.push(state.session);save(d);state.session=null;state.tab='history';setActive();renderHistory()}
+function renderHistory(){let d=load().slice().reverse();document.getElementById('app').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><h2 style="margin:0;color:var(--navy)">Historique</h2><button class="green" onclick="exportCSV()">Exporter CSV</button></div>${d.length?d.map((s,idx)=>`<div class="history-item"><b>${new Date(s.date).toLocaleDateString('fr-CA')} · ${s.day}</b><br><span class="small">Douleur ${s.painBefore||'–'} → ${s.painAfter||'–'}</span><details><summary class="small" style="margin-top:6px;cursor:pointer">Voir les exercices</summary>${s.entries.map((e,i)=>`<div style="padding:7px 0"><b>${i+1}. ${sessionName(s.day,i)}</b><br><span class="small">${e.sets.map((x,j)=>`S${j+1}: ${x.w||'–'} kg/lb · ${x.r||'–'} reps · ${x.t||'–'} s`).join(' | ')}</span>${e.note?`<br><span class="small">Note: ${e.note}</span>`:''}</div>`).join('')}</details></div>`).join(''):'<p class="muted">Aucune séance enregistrée.</p>'}</div>`}
+function sessionName(day,i){let r=routines[day],arr=[...r.warmup,...r.core];return arr[i]?.name||'Exercice'}
+function renderProgress(){let data=load();let exNames=[...new Set(Object.values(routines).flatMap(r=>r.core.map(x=>x.name)))];let opts=exNames.map(n=>`<option>${n}</option>`).join('');document.getElementById('app').innerHTML=`<div class="card"><h2 style="margin-top:0;color:var(--navy)">Progression</h2><label>Exercice</label><select id="progSel" onchange="drawProgress(this.value)">${opts}</select><div id="progArea"></div></div>`;drawProgress(exNames[0])}
+function drawProgress(name){let data=load(),pts=[];data.forEach(s=>{let r=routines[s.day],arr=[...r.warmup,...r.core],idx=arr.findIndex(x=>x.name===name);if(idx>=0&&s.entries[idx]){let vals=s.entries[idx].sets.map(x=>parseFloat(x.w)||0);let best=Math.max(...vals);pts.push({date:new Date(s.date),best})}});let a=document.getElementById('progArea');if(!pts.length){a.innerHTML='<p class="muted">Pas encore de données de poids pour cet exercice.</p>';return}let max=Math.max(...pts.map(p=>p.best),1);a.innerHTML=`<p class="small">Meilleur poids saisi par séance</p><div class="chart">${pts.slice(-12).map(p=>`<div class="bar" style="height:${Math.max(8,p.best/max*120)}px"><span>${p.best||''}</span></div>`).join('')}</div><p class="small">De gauche à droite : séances les plus anciennes → plus récentes.</p>`}
+function renderSettings(){document.getElementById('app').innerHTML=`<div class="card"><h2 style="margin-top:0;color:var(--navy)">Réglages</h2><p><b>Données :</b> conservées localement sur cet iPhone dans Safari/PWA.</p><button class="green" onclick="exportCSV()">Exporter toutes les données en CSV</button><hr><button class="ghost" onclick="if(confirm('Effacer tout l’historique ?')){localStorage.removeItem('coreSessionsData');alert('Historique effacé.')}" style="color:#a21d24">Effacer l’historique</button><hr><p class="small">Installation iPhone : ouvrir cette app dans Safari → Partager → Sur l’écran d’accueil.</p></div>`}
+function csvEsc(v){v=(v??'').toString().replaceAll('"','""');return '"'+v+'"'}
+function exportCSV(){let rows=[["date","routine","exercise_order","exercise","set","weight","reps","time_seconds","exercise_notes","pain_before","pain_after"]];load().forEach(s=>{let r=routines[s.day],arr=[...r.warmup,...r.core];s.entries.forEach((e,i)=>{e.sets.forEach((x,j)=>rows.push([new Date(s.date).toISOString(),s.day,i+1,arr[i]?.name||'',j+1,x.w,x.r,x.t,e.note||'',s.painBefore||'',s.painAfter||'']))})});let csv=rows.map(r=>r.map(csvEsc).join(',')).join('\n');let blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='core_sessions_'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}
+function setActive(){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===state.tab))}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab;state.session=null;setActive();if(state.tab==='home')renderHome();if(state.tab==='history')renderHistory();if(state.tab==='progress')renderProgress();if(state.tab==='settings')renderSettings()});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});renderHome();
+</script>
+</body></html>
